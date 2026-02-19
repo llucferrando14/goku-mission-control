@@ -1,209 +1,160 @@
-# Slime Cascade — Week 1 Milestone Plan
+# Week 1 Milestone Plan — Slime Cascade
 
-**Dates:** February 19-25, 2026  
-**Goal:** Core Physics Foundation + First Playable Prototype  
-**Deadline:** Sunday Feb 25, EOD
-
----
-
-## 📋 Week Overview
-
-| Day | Focus | Deliverable | Success Criteria |
-|-----|-------|-------------|------------------|
-| **Wed 19** | Project Setup | Unity project configured, folder structure | Project opens without errors |
-| **Thu 20** | Core Physics (Part 1) | Slime dropping + peg collisions | Slime falls, bounces off pegs |
-| **Fri 21** | Core Physics (Part 2) | Slime settling + queue system | Slimes stack at bottom, settle correctly |
-| **Sat 22** | Color Matching | Match detection algorithm | 3+ touching same-color slimes detected |
-| **Sun 23** | Chain Reactions | Cascade system + scoring | Matches trigger chain reactions |
-| **Mon 24** | UI Foundation | Score display + game flow | Can play full round, see score |
-| **Tue 25** | Polish & Buffer | Visual feedback + bug fixes | Smooth gameplay, no critical bugs |
+**Week:** February 19-25, 2026  
+**Goal:** Core Foundation — Physics & Basic Mechanics  
+**Deliverable:** First playable prototype (slime drops, bounces, settles)
 
 ---
 
-## 🎯 Day-by-Day Breakdown
+## 🎯 Week 1 Objectives
 
-### **Wednesday, Feb 19 — PROJECT SETUP** ✅
-**Status:** Complete (done by Goku)
-
-- ✅ Unity project structure scaffolded
-- ✅ Core script stubs written (GameManager, SlimeController, PegBoard, ColorMatcher, ChainReaction)
-- ✅ README.md with setup instructions
-- ✅ Git repo linked
-
-**Next:** Open in Unity, verify no compilation errors
+By end of Week 1, we should have:
+- ✅ Unity project fully configured
+- ✅ Basic physics (slime drops, bounces off pegs)
+- ✅ Aim and drop controls
+- ✅ Slime settlement detection
+- ✅ Simple UI (score display, basic menu)
+- ✅ **Playable:** Can drop slimes and see them bounce
 
 ---
 
-### **Thursday, Feb 20 — CORE PHYSICS (PART 1)**
-**Focus:** SlimeController implementation + basic peg collisions
+## 📅 Day-by-Day Breakdown
 
-**Morning:**
-- [ ] Open project in Unity 2022.3 LTS
-- [ ] Fix any compilation errors in stubs
-- [ ] Create basic slime prefab (CircleCollider2D, Rigidbody2D, SpriteRenderer)
-- [ ] Implement SlimeController.Initialize() and basic color assignment
+### **Day 1 — Wednesday, Feb 19** (TODAY)
+**Focus:** Project Setup & Physics Foundation
 
-**Afternoon:**
-- [ ] Implement SlimeController.Drop() - apply gravity, initial velocity
-- [ ] Create basic peg prefab (static CircleCollider2D)
-- [ ] Test: Slime drops from top, falls through gravity
+| Task | Time | Status |
+|------|------|--------|
+| ✅ Create Unity project structure | 30m | DONE |
+| ✅ Write core script stubs | 1h | DONE |
+| [ ] Open project in Unity, configure build settings | 30m | TODO |
+| [ ] Import 2D Physics package | 15m | TODO |
+| [ ] Create basic slime prefab (Circle sprite + Rigidbody2D) | 30m | TODO |
+| [ ] Configure physics materials (bounciness, friction) | 30m | TODO |
+| [ ] Test: Drop slime, watch it fall | 15m | TODO |
 
-**Evening:**
-- [ ] Implement OnCollisionEnter2D() for bounce feedback
-- [ ] Test: Slime bounces off pegs realistically
-- [ ] Commit: `[game] day 2 - slime physics and peg collisions`
-
-**Success Criteria:**
-- Can spawn slime at top
-- Slime falls naturally with gravity
-- Slime bounces off pegs with satisfying physics
+**End of Day 1 Deliverable:** Slime falls with gravity
 
 ---
 
-### **Friday, Feb 21 — CORE PHYSICS (PART 2)**
-**Focus:** Slime settling + queue management
+### **Day 2 — Thursday, Feb 20**
+**Focus:** Peg Field & Collision
 
-**Morning:**
-- [ ] Implement velocity checking in FixedUpdate()
-- [ ] Implement HasSettled() detection (velocity < threshold)
-- [ ] Implement SlimeController.Settle() - change state, scale down
+| Task | Time | Status |
+|------|------|--------|
+| [ ] Create peg prefab (Circle sprite, static collider) | 30m | TODO |
+| [ ] Build PegBoard generation (grid layout) | 1h | TODO |
+| [ ] Place 20+ pegs in scene | 30m | TODO |
+| [ ] Test: Slime bounces through pegs | 30m | TODO |
+| [ ] Adjust bounce physics (not too chaotic) | 30m | TODO |
+| [ ] Add boundary colliders (walls, floor) | 30m | TODO |
 
-**Afternoon:**
-- [ ] Create SlimeQueue system (next slime preview)
-- [ ] Implement aim/aiming indicator
-- [ ] Test: Can aim left/right, drop slime in different positions
-
-**Evening:**
-- [ ] Prevent slimes from settling on top of each other (stacking)
-- [ ] Implement basic bottom boundary
-- [ ] Commit: `[game] day 3 - slime settling and queue system`
-
-**Success Criteria:**
-- Slimes settle at bottom when they stop moving
-- Can aim and drop multiple slimes
-- Slimes stack properly without overlapping
+**End of Day 2 Deliverable:** Slime bounces realistically through peg field
 
 ---
 
-### **Saturday, Feb 22 — COLOR MATCHING**
-**Focus:** Match detection algorithm
+### **Day 3 — Friday, Feb 21**
+**Focus:** Aim & Drop Controls
 
-**Morning:**
-- [ ] Implement ColorMatcher.RegisterSettledSlime()
-- [ ] Create color grouping logic
-- [ ] Implement FindConnectedGroup() using flood fill/BFS
+| Task | Time | Status |
+|------|------|--------|
+| [ ] Implement aim mechanic (mouse/touch position) | 1h | TODO |
+| [ ] Visual aim line/trajectory preview | 1h | TODO |
+| [ ] Drop on click/tap | 30m | TODO |
+| [ ] Prevent drops while slimes are settling | 30m | TODO |
+| [ ] Add drop cooldown (0.5s between drops) | 15m | TODO |
+| [ ] Test: Smooth aiming and dropping | 30m | TODO |
 
-**Afternoon:**
-- [ ] Implement AreSlimesTouching() distance check
-- [ ] Implement CheckForMatches() - iterate all settled slimes
-- [ ] Test: 3 same-color slimes touching = match detected
-
-**Evening:**
-- [ ] Add match highlighting (visual feedback)
-- [ ] Implement CalculateMatchScore()
-- [ ] Commit: `[game] day 4 - color matching detection`
-
-**Success Criteria:**
-- System detects when 3+ same-color slimes are touching
-- Matched slimes are highlighted
-- Score is calculated based on match size
+**End of Day 3 Deliverable:** Can aim and drop slimes with visual feedback
 
 ---
 
-### **Sunday, Feb 23 — CHAIN REACTIONS**
-**Focus:** Cascade system + scoring multipliers
+### **Day 4 — Saturday, Feb 22**
+**Focus:** Settlement Detection & State Machine
 
-**Morning:**
-- [ ] Implement ChainReaction.StartChain()
-- [ ] Implement AddChainLink() for each consecutive match
-- [ ] Create chain multiplier system (x2, x3, x4...)
+| Task | Time | Status |
+|------|------|--------|
+| [ ] Implement velocity monitoring | 45m | TODO |
+| [ ] Detect when slime "settles" (velocity < threshold) | 45m | TODO |
+| [ ] Stop physics on settled slimes | 30m | TODO |
+| [ ] Snap to grid position | 45m | TODO |
+| [ ] Track settled slimes in GameManager | 30m | TODO |
+| [ ] Test: Slimes settle and stack neatly | 30m | TODO |
 
-**Afternoon:**
-- [ ] Implement merge animations (slimes move together)
-- [ ] Add chain counter UI (floating text)
-- [ ] Implement ChainReaction.EndChain()
-
-**Evening:**
-- [ ] Add visual feedback for chains (screen shake, flash)
-- [ ] Test full chain: drop → match → cascade → new match
-- [ ] Commit: `[game] day 5 - chain reactions and scoring`
-
-**Success Criteria:**
-- Chain reactions work automatically
-- Score multipliers increase with chain depth
-- Visual feedback makes chains feel satisfying
+**End of Day 4 Deliverable:** Slimes settle at bottom and stop moving
 
 ---
 
-### **Monday, Feb 24 — UI FOUNDATION**
-**Focus:** Score display + game flow
+### **Day 5 — Sunday, Feb 23**
+**Focus:** Color Matching (Basic)
 
-**Morning:**
-- [ ] Create ScoreDisplay UI (Canvas, TextMeshPro)
-- [ ] Hook up GameManager scoring to UI
-- [ ] Implement MainMenu (Start Game, Instructions)
+| Task | Time | Status |
+|------|------|--------|
+| [ ] Create 4 slime color variants (prefabs) | 30m | TODO |
+| [ ] Implement neighbor detection (physics overlap) | 1h | TODO |
+| [ ] Detect 3+ adjacent same-color slimes | 1h | TODO |
+| [ ] Highlight matched slimes | 30m | TODO |
+| [ ] Test: Matches detected correctly | 30m | TODO |
 
-**Afternoon:**
-- [ ] Implement GameOver screen
-- [ ] Add turn counter / slimes remaining
-- [ ] Create basic level progression (Level 1, 2, 3...)
-
-**Evening:**
-- [ ] Test full game loop: Menu → Play → Match → Game Over
-- [ ] Fix any critical bugs
-- [ ] Commit: `[game] day 6 - UI and game flow`
-
-**Success Criteria:**
-- Can play full game from menu to game over
-- Score updates in real-time
-- Game state transitions work smoothly
+**End of Day 5 Deliverable:** System detects color matches (no merge yet)
 
 ---
 
-### **Tuesday, Feb 25 — POLISH & BUFFER**
-**Focus:** Visual polish + bug fixes + Week 2 prep
+### **Day 6 — Monday, Feb 24**
+**Focus:** Merge Animation & Scoring
 
-**Morning:**
-- [ ] Add particle effects for matches
-- [ ] Improve slime visuals (colors, shading)
-- [ ] Add sound effect placeholders (even if just console.log)
+| Task | Time | Status |
+|------|------|--------|
+| [ ] Merge animation (slimes move together + shrink) | 1.5h | TODO |
+| [ ] Particle effect on merge | 30m | TODO |
+| [ ] Score calculation (base + match size bonus) | 30m | TODO |
+| [ ] Score UI display | 30m | TODO |
+| [ ] Test: Merge feels satisfying | 30m | TODO |
 
-**Afternoon:**
-- [ ] Bug hunt: fix physics glitches, match detection edge cases
-- [ ] Optimize: ensure 60fps on target device
-- [ ] Build APK and test on Android device
-
-**Evening:**
-- [ ] Document Week 1 learnings
-- [ ] Plan Week 2 milestones (UI polish, audio, more levels)
-- [ ] Commit: `[game] week 1 complete - playable prototype`
-
-**Success Criteria:**
-- Smooth 60fps gameplay
-- No critical bugs
-- Playable on Android device
-- Ready for Week 2 feature development
+**End of Day 6 Deliverable:** Matches merge with satisfying animation and score
 
 ---
 
-## 📊 Success Metrics
+### **Day 7 — Tuesday, Feb 25**
+**Focus:** Integration & First Playable
 
-### Functional
-- [ ] Slime physics feel good (weighty but bouncy)
-- [ ] Matches detect correctly (no false positives/negatives)
-- [ ] Chain reactions work automatically
-- [ ] Score displays and updates correctly
-- [ ] Game loop complete (menu → play → game over)
+| Task | Time | Status |
+|------|------|--------|
+| [ ] Main menu (Start Game button) | 30m | TODO |
+| [ ] Basic game loop (drop → settle → match → merge → repeat) | 1h | TODO |
+| [ ] Lose condition (slimes stack to top) | 30m | TODO |
+| [ ] Score persistence (session only) | 15m | TODO |
+| [ ] Polish: Sound effects, particles | 1h | TODO |
+| [ ] **BUILD & TEST ON ANDROID** | 1h | TODO |
 
-### Performance
-- [ ] 60fps stable in Unity Editor
-- [ ] <50MB memory usage
-- [ ] No physics glitches or frame drops
+**End of Day 7 Deliverable:** **FIRST PLAYABLE PROTOTYPE**
 
-### Quality
-- [ ] Code is documented
-- [ ] Commits are regular and descriptive
-- [ ] Project structure is clean
+---
+
+## ✅ Week 1 Success Criteria
+
+| Criteria | How to Test |
+|----------|-------------|
+| Can aim slime left/right | Move mouse/finger, slime follows |
+| Can drop slime on click | Click/tap, slime falls |
+| Slime bounces through pegs | Observe realistic physics |
+| Slime settles at bottom | Stops moving, stacks neatly |
+| Match 3+ same colors detected | Place 3 red slimes together, see highlight |
+| Merge animation plays | Slimes shrink together, particles spawn |
+| Score updates on merge | Number increases |
+| Can play for 2+ minutes without crash | Stress test |
+| Runs on Android device | Build APK, install, test |
+
+---
+
+## 🚀 Stretch Goals (If Time Permits)
+
+- [ ] Add simple background music
+- [ ] Add sound effects (bounce, merge, drop)
+- [ ] Add pause menu
+- [ ] Add restart button
+- [ ] Add simple main menu art
+- [ ] Add level counter (display "Level 1")
 
 ---
 
@@ -211,44 +162,37 @@
 
 | Risk | Mitigation |
 |------|------------|
-| Unity physics too finicky | Use 2D physics, tune bounciness/friction early |
-| Match detection bugs | Visual debug mode showing detection radii |
-| Scope creep | STRICTLY defer non-essential features to Week 2+ |
-| Device performance issues | Test on actual Android device by Friday |
-| Time overrun | Daily checkpoints - if behind, cut scope ruthlessly |
+| Unity physics too chaotic | Tune bounciness/friction early (Day 2) |
+| Settlement detection unreliable | Test extensively, adjust threshold |
+| Android build issues | Test Day 1, not Day 7 |
+| Scope creep | Stick to Week 1 plan, defer extras |
+| Performance problems | Profile Day 3, optimize early |
 
 ---
 
-## 📝 Daily Checklist Template
+## 📊 Progress Tracking
 
-Each day, update this:
-
-```
-Date: [Day]
-Commits: [Number]
-Lines Added: [Approx]
-Blockers: [Any issues?]
-Tomorrow: [Plan]
-```
-
----
-
-## 🎮 Week 1 Definition of Done
-
-**Playable Prototype Means:**
-1. Press Play in Unity
-2. Menu appears
-3. Click Start
-4. Can aim and drop slimes
-5. Slimes bounce through pegs
-6. Same-color matches detect
-7. Chains cascade automatically
-8. Score updates
-9. Game ends when board full
-10. Can restart
-
-**If all 10 work → Week 1 SUCCESS** ✅
+| Day | Planned | Actual | Status |
+|-----|---------|--------|--------|
+| Wed 19 | Setup + Physics | [TBD] | 🟡 In Progress |
+| Thu 20 | Pegs + Collision | [TBD] | ⚪ Not Started |
+| Fri 21 | Aim + Drop | [TBD] | ⚪ Not Started |
+| Sat 22 | Settlement | [TBD] | ⚪ Not Started |
+| Sun 23 | Color Match | [TBD] | ⚪ Not Started |
+| Mon 24 | Merge + Score | [TBD] | ⚪ Not Started |
+| Tue 25 | Polish + Build | [TBD] | ⚪ Not Started |
 
 ---
 
-*Week 1 is about PROOF OF CONCEPT. If the core loop isn't fun by Sunday, we pivot.*
+## 📝 Notes
+
+- **Priority:** Working > Perfect. Get it functional first, polish later.
+- **Testing:** Test on device EVERY DAY, not just Day 7.
+- **Commits:** Commit after each task completion.
+- **Blockers:** If stuck >30min, move on and come back.
+
+---
+
+**Week 1 Goal:** *"Drop. Bounce. Merge."* — Core loop functional by Feb 25.
+
+Ready to start Day 1! 🎮
