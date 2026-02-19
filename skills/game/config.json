@@ -1,16 +1,17 @@
 {
-  "name": "game",
-  "version": "1.0.0",
-  "description": "Game Development Skill — Unity mobile game project for university",
-  "domain": "Game Development",
+  "concept": "Slime Cascade",
+  "genre": "Physics Puzzle",
   "engine": "Unity",
-  "platform": "Mobile (Android/iOS)",
+  "platform": "Android",
   "deadline": "2026-05-31",
-  "status": "concept-phase",
-  "templates": [
-    "design-document.md",
-    "weekly-milestone.md",
-    "build-log.md"
-  ],
-  "lastUpdated": "2026-02-19"
+  "hours_per_week": 10,
+  "current_phase": "design_and_scaffold",
+  "milestones_total": 12,
+  "milestones_complete": 0,
+  "alert_thresholds": {
+    "weeks_remaining_critical": 4,
+    "weeks_remaining_warning": 8,
+    "completion_pct_critical": 70,
+    "completion_pct_warning": 40
+  }
 }
