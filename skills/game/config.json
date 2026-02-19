@@ -1,0 +1,16 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "Game Development Skill — Unity mobile game project for university",
+  "domain": "Game Development",
+  "engine": "Unity",
+  "platform": "Mobile (Android/iOS)",
+  "deadline": "2026-05-31",
+  "status": "concept-phase",
+  "templates": [
+    "design-document.md",
+    "weekly-milestone.md",
+    "build-log.md"
+  ],
+  "lastUpdated": "2026-02-19"
+}

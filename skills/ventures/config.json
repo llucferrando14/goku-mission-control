@@ -1,0 +1,14 @@
+{
+  "name": "ventures",
+  "version": "1.0.0",
+  "description": "Opportunity Scouting Skill — Market intelligence, trends, strategic opportunities",
+  "domain": "Market Intelligence",
+  "focus": ["New tools", "Market gaps", "Strategic opportunities", "Investment targets"],
+  "output": ["Opportunity briefs", "Investment memos", "MVP specs"],
+  "templates": [
+    "opportunity-brief.md",
+    "investment-memo.md",
+    "mvp-spec.md"
+  ],
+  "lastUpdated": "2026-02-19"
+}

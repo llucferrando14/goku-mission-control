@@ -1,0 +1,16 @@
+{
+  "name": "amphora",
+  "version": "1.0.0",
+  "description": "Amphora Logistics Skill — Software engineering internship and thesis documentation",
+  "domain": "Software Engineering",
+  "company": "Amphora Logistics",
+  "role": "Software Engineer Intern",
+  "duration": "6 months (4 months elapsed, 2 remaining)",
+  "thesisConnection": true,
+  "templates": [
+    "commit-doc.md",
+    "code-review-notes.md",
+    "weekly-dev-log.md"
+  ],
+  "lastUpdated": "2026-02-19"
+}

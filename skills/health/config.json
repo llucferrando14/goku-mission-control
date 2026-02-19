@@ -1,0 +1,15 @@
+{
+  "name": "health",
+  "version": "1.0.0",
+  "description": "Health Management Skill — Dermatomyositis monitoring and athletic optimization",
+  "domain": "Health & Athletic Performance",
+  "condition": "Dermatomyositis",
+  "wearable": "Garmin (model TBD)",
+  "tracking": ["symptoms", "training", "sleep", "medication"],
+  "templates": [
+    "daily-health-log.md",
+    "flare-alert.md",
+    "weekly-health-summary.md"
+  ],
+  "lastUpdated": "2026-02-19"
+}
