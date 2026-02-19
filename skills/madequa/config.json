@@ -1,16 +1,15 @@
 {
-  "name": "madequa",
-  "version": "1.0.0",
-  "description": "Madequa Growth Skill — GTM Engineering, Shopify, Klaviyo, growth experiments",
-  "domain": "Growth Engineering",
-  "company": "Madequa (startup)",
-  "role": "Growth Partner / GTM Engineer (in training)",
-  "goal": "Master role → 1-2 paying clients → financial independence",
-  "stack": ["Shopify", "Klaviyo", "AI automations"],
-  "templates": [
-    "experiment-brief.md",
-    "campaign-analysis.md",
-    "playbook-entry.md"
-  ],
-  "lastUpdated": "2026-02-19"
+  "brand": "Madequa",
+  "type": "e-commerce",
+  "tools": ["Klaviyo", "Shopify"],
+  "access_status": {
+    "klaviyo_api": false,
+    "shopify_api": false,
+    "lark_access": false,
+    "dashboard_api": false
+  },
+  "hours_per_week": 10,
+  "experiment_log_required": true,
+  "active_experiments": 0,
+  "playbook_entries": 0
 }
