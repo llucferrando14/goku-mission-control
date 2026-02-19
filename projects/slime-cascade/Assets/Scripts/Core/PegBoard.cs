@@ -2,199 +2,237 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// Manages the peg board - grid generation, peg placement, and collision optimization.
-/// Creates the playing field that slimes bounce through.
+/// PegBoard - Manages the peg field layout and generation
+/// Handles peg placement, types, and board state
 /// </summary>
 public class PegBoard : MonoBehaviour
 {
-    #region Configuration
-    [Header("Grid Settings")]
-    [SerializeField] private int rows = 10;
-    [SerializeField] private int columns = 8;
+    #region Board Configuration
+    [Header("Board Dimensions")]
+    [SerializeField] private int gridWidth = 7;
+    [SerializeField] private int gridHeight = 12;
     [SerializeField] private float cellSize = 1f;
-    [SerializeField] private float rowOffset = 0.5f;  // Offset every other row
-    
-    [Header("Peg Prefabs")]
-    [SerializeField] private GameObject standardPegPrefab;
-    [SerializeField] private GameObject bumperPegPrefab;
-    
-    [Header("Board Bounds")]
-    [SerializeField] private float topY = 8f;
-    [SerializeField] private float bottomY = -8f;
-    [SerializeField] private float leftX = -4f;
-    [SerializeField] private float rightX = 4f;
+    [SerializeField] private Vector2 boardOffset;
     #endregion
 
-    #region Runtime Data
-    private List<PegData> activePegs = new List<PegData>();
-    private Transform pegContainer;
+    #region Peg Types
+    [Header("Peg Types")]
+    [SerializeField] private GameObject standardPegPrefab;
+    [SerializeField] private GameObject bumperPegPrefab;
+    [SerializeField] private GameObject breakablePegPrefab;
     
-    public class PegData
+    public enum PegType
+    {
+        Standard,   // Fixed, normal bounce
+        Bumper,     // Extra bouncy
+        Breakable,  // Destroys after N hits
+        Moving,     // Moves horizontally
+        Rotating    // Rotates, changing bounce angle
+    }
+    #endregion
+
+    #region Board State
+    private Peg[,] pegGrid;
+    private List<Peg> activePegs;
+    private List<Peg> breakablePegs;
+    
+    public class Peg
     {
         public Vector2Int GridPosition;
         public Vector2 WorldPosition;
         public PegType Type;
         public GameObject Instance;
+        public int Durability; // For breakable pegs
         public bool IsActive;
     }
-    
-    public enum PegType
-    {
-        Standard,   // Normal bounce
-        Bumper      // Extra bounce force
-    }
+    #endregion
+
+    #region Generation Settings
+    [Header("Generation")]
+    [SerializeField] private float bumperPegChance = 0.15f;
+    [SerializeField] private float breakablePegChance = 0.1f;
+    [SerializeField] private int minPegsPerRow = 3;
+    [SerializeField] private int maxPegsPerRow = 5;
+    [SerializeField] private bool useStaggeredRows = true;
+    #endregion
+
+    #region Events
+    public System.Action<Vector2Int> OnPegHit;
+    public System.Action<Peg> OnPegDestroyed;
+    public System.Action OnBoardGenerated;
     #endregion
 
     #region Unity Lifecycle
-    
     private void Awake()
     {
-        // TODO: Create peg container transform
-        throw new System.NotImplementedException("Container setup required");
+        // TODO: Initialize peg lists
+        // TODO: Set up board dimensions
     }
-    
+
     private void Start()
     {
         // TODO: Generate initial board
-        throw new System.NotImplementedException("Board generation required");
+        // TODO: Load level config if available
     }
-    
     #endregion
 
     #region Board Generation
-    
-    /// <summary>
-    /// Generate a new peg board with specified difficulty.
-    /// </summary>
-    /// <param name="level">Level number (affects complexity)</param>
-    /// <param name="seed">Random seed for reproducible layouts</param>
-    public void GenerateBoard(int level, int seed)
+    public void GenerateBoard(int levelNumber = 1)
     {
-        // TODO: Clear existing pegs, set random seed, call layout generation
-        throw new System.NotImplementedException("Board generation required");
+        // TODO: Clear existing board
+        // TODO: Initialize pegGrid array
+        // TODO: Generate peg layout based on level
+        // TODO: Place pegs in world space
+        // TODO: Invoke OnBoardGenerated
     }
-    
-    /// <summary>
-    /// Create standard triangular peg layout.
-    /// </summary>
-    private void GenerateTriangularLayout()
+
+    public void GenerateRandomBoard()
     {
-        // TODO: Create staggered triangular pattern (like Plinko)
-        throw new System.NotImplementedException("Triangular layout required");
+        // TODO: Create random but fair layout
+        // TODO: Ensure no unwinnable configurations
+        // TODO: Distribute peg types randomly
     }
-    
-    /// <summary>
-    /// Create random peg layout with guaranteed paths.
-    /// </summary>
-    private void GenerateRandomLayout()
+
+    private void PlacePeg(int x, int y, PegType type)
     {
-        // TODO: Random placement with path validation
-        throw new System.NotImplementedException("Random layout required");
+        // TODO: Calculate world position from grid coordinates
+        // TODO: Instantiate peg prefab
+        // TODO: Configure peg properties
+        // TODO: Add to pegGrid and activePegs
     }
-    
-    /// <summary>
-    /// Place a single peg at grid coordinates.
-    /// </summary>
-    /// <param name="gridPos">Grid position (row, col)</param>
-    /// <param name="type">Peg type</param>
-    private void PlacePeg(Vector2Int gridPos, PegType type)
+
+    private Vector2 GridToWorld(Vector2Int gridPos)
     {
-        // TODO: Calculate world position, instantiate prefab, add to activePegs
-        throw new System.NotImplementedException("Peg placement required");
+        // TODO: Convert grid coordinates to world position
+        // TODO: Apply stagger offset for every other row
+        // TODO: Apply boardOffset
+        return Vector2.zero; // TODO: Implement
     }
-    
+
+    private Vector2Int WorldToGrid(Vector2 worldPos)
+    {
+        // TODO: Convert world position to grid coordinates
+        // TODO: Inverse of GridToWorld
+        return Vector2Int.zero; // TODO: Implement
+    }
     #endregion
 
-    #region Coordinate Conversion
-    
-    /// <summary>
-    /// Convert grid coordinates to world position.
-    /// </summary>
-    public Vector2 GridToWorld(Vector2Int gridPos)
+    #region Level Patterns
+    public void LoadLevelPattern(LevelPattern pattern)
     {
-        // TODO: Calculate world position from grid coordinates with row offset
-        throw new System.NotImplementedException("Grid conversion required");
+        // TODO: Load predefined pattern from scriptable object
+        // TODO: Place pegs according to pattern data
     }
-    
-    /// <summary>
-    /// Convert world position to nearest grid coordinates.
-    /// </summary>
-    public Vector2Int WorldToGrid(Vector2 worldPos)
+
+    public void GenerateDiamondPattern()
     {
-        // TODO: Calculate grid coordinates from world position
-        throw new System.NotImplementedException("World conversion required");
+        // TODO: Create diamond-shaped peg field
     }
-    
-    /// <summary>
-    /// Snap a position to the nearest valid grid point.
-    /// </summary>
-    public Vector2 SnapToGrid(Vector2 worldPos)
+
+    public void GenerateCirclePattern()
     {
-        // TODO: Convert to grid and back to snap to grid
-        throw new System.NotImplementedException("Snap logic required");
+        // TODO: Create circular peg field
     }
-    
+
+    public void GenerateRandomScattered()
+    {
+        // TODO: Random placement with minimum spacing
+    }
     #endregion
 
     #region Peg Management
-    
-    /// <summary>
-    /// Get all pegs within radius of a position.
-    /// </summary>
-    public List<PegData> GetPegsInRadius(Vector2 center, float radius)
+    public Peg GetPegAt(Vector2Int gridPos)
     {
-        // TODO: Filter activePegs by distance from center
-        throw new System.NotImplementedException("Radius query required");
+        // TODO: Return peg at grid position
+        // TODO: Handle out of bounds
+        return null; // TODO: Implement
     }
-    
-    /// <summary>
-    /// Get peg at specific grid position.
-    /// </summary>
-    public PegData GetPegAt(Vector2Int gridPos)
+
+    public Peg GetNearestPeg(Vector2 worldPos)
     {
-        // TODO: Find peg in activePegs matching grid position
-        throw new System.NotImplementedException("Peg lookup required");
+        // TODO: Find closest peg to world position
+        // TODO: Useful for match detection
+        return null; // TODO: Implement
     }
-    
-    /// <summary>
-    /// Remove a peg from the board.
-    /// </summary>
-    public void RemovePeg(PegData peg)
+
+    public void DamagePeg(Vector2Int gridPos, int damage = 1)
     {
-        // TODO: Destroy instance, remove from list
-        throw new System.NotImplementedException("Peg removal required");
+        // TODO: Apply damage to breakable peg
+        // TODO: Check durability
+        // TODO: Destroy if durability <= 0
+        // TODO: Invoke OnPegDestroyed
     }
-    
-    /// <summary>
-    /// Clear all pegs from the board.
-    /// </summary>
-    public void ClearBoard()
+
+    public void RemovePeg(Vector2Int gridPos)
     {
-        // TODO: Destroy all peg instances, clear activePegs list
-        throw new System.NotImplementedException("Board clear required");
+        // TODO: Remove peg from grid and lists
+        // TODO: Destroy GameObject
+        // TODO: Clear grid cell
     }
-    
     #endregion
 
-    #region Validation
-    
-    /// <summary>
-    /// Check if there's at least one valid path from top to bottom.
-    /// </summary>
-    public bool HasValidPath()
+    #region Queries
+    public bool IsValidGridPosition(Vector2Int gridPos)
     {
-        // TODO: Pathfinding check to ensure slimes can reach bottom
-        throw new System.NotImplementedException("Path validation required");
+        // TODO: Check if position is within grid bounds
+        return false; // TODO: Implement
     }
-    
-    /// <summary>
-    /// Get recommended drop zones (areas with clear paths).
-    /// </summary>
-    public List<float> GetRecommendedDropZones()
+
+    public bool HasPegAt(Vector2Int gridPos)
     {
-        // TODO: Analyze board and return X positions with good paths
-        throw new System.NotImplementedException("Drop zone analysis required");
+        // TODO: Check if grid cell has active peg
+        return false; // TODO: Implement
     }
-    
+
+    public List<Peg> GetPegsInRow(int row)
+    {
+        // TODO: Return all pegs in specified row
+        return new List<Peg>(); // TODO: Implement
+    }
+
+    public List<Peg> GetPegsInColumn(int col)
+    {
+        // TODO: Return all pegs in specified column
+        return new List<Peg>(); // TODO: Implement
+    }
+    #endregion
+
+    #region Visual Effects
+    public void HighlightPeg(Vector2Int gridPos, Color highlightColor)
+    {
+        // TODO: Visual feedback for targeted peg
+    }
+
+    public void ShakeBoard(float intensity, float duration)
+    {
+        // TODO: Screen shake on big cascade
+    }
+    #endregion
+
+    #region Utility
+    public void ClearBoard()
+    {
+        // TODO: Remove all pegs
+        // TODO: Clear lists and grid
+        // TODO: Destroy all peg GameObjects
+    }
+
+    public int GetActivePegCount()
+    {
+        // TODO: Return count of active pegs
+        return 0; // TODO: Implement
+    }
+    #endregion
+
+    #region Data Structures
+    [System.Serializable]
+    public class LevelPattern
+    {
+        public string patternName;
+        public int width;
+        public int height;
+        public PegType[] pegLayout; // Flattened 2D array
+        public int[] durabilityMap; // For breakable pegs
+    }
     #endregion
 }

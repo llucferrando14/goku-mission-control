@@ -3,211 +3,216 @@ using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// Manages chain reactions - cascading matches triggered by previous merges.
-/// Handles timing, scoring multipliers, and visual feedback for chains.
+/// ChainReaction - Manages cascade effects from merges
+/// Handles delayed reactions, scoring cascades, and visual feedback
 /// </summary>
 public class ChainReaction : MonoBehaviour
 {
-    #region Configuration
+    #region Chain Configuration
     [Header("Chain Settings")]
-    [SerializeField] private float chainDelay = 0.3f;
-    [SerializeField] private float maxChainTime = 5f;
-    [SerializeField] private AnimationCurve chainMultiplierCurve;
-    
-    [Header("Visual")]
-    [SerializeField] private GameObject chainTextPrefab;
-    [SerializeField] private Color[] chainColors;  // Color per chain level
-    [SerializeField] private float textFloatDuration = 1f;
+    [SerializeField] private float cascadeDelay = 0.3f;
+    [SerializeField] private float maxChainDuration = 5f;
+    [SerializeField] private bool allowRecursiveChains = true;
+    [SerializeField] private int maxChainDepth = 10;
     #endregion
 
-    #region State
-    private int currentChainDepth = 0;
-    private float chainStartTime = 0f;
-    private bool isChainActive = false;
-    private List<int> chainScores = new List<int>();
-    private Coroutine activeChainCoroutine;
+    #region Chain State
+    private int currentChainLevel;
+    private float chainScoreMultiplier;
+    private List<ChainEvent> activeChain;
+    private bool isChainActive;
+    
+    public class ChainEvent
+    {
+        public Vector2 Position;
+        public SlimeController.SlimeColor Color;
+        public int ChainLevel;
+        public float Delay;
+        public System.Action OnComplete;
+    }
+    #endregion
+
+    #region Multiplier Curve
+    [Header("Scoring")]
+    [SerializeField] private AnimationCurve chainMultiplierCurve;
+    [SerializeField] private float baseMultiplier = 1f;
+    [SerializeField] private float maxMultiplier = 10f;
     #endregion
 
     #region Events
-    public delegate void ChainStarted(int chainNumber);
-    public static event ChainStarted OnChainStarted;
-    
-    public delegate void ChainLink(int chainDepth, int points, float multiplier);
-    public static event ChainLink OnChainLink;
-    
-    public delegate void ChainComplete(int totalChainDepth, int totalPoints, float maxMultiplier);
-    public static event ChainComplete OnChainComplete;
+    public System.Action<int> OnChainStarted;
+    public System.Action<int, float> OnChainLevelIncreased;
+    public System.Action<int, int> OnChainComplete; // chainLevel, totalScore
+    public System.Action<Vector2, int> OnCascadeTriggered;
     #endregion
 
     #region Unity Lifecycle
-    
+    private void Awake()
+    {
+        // TODO: Initialize lists
+        // TODO: Setup default multiplier curve
+    }
+
     private void Start()
     {
         // TODO: Subscribe to ColorMatcher events
-        throw new System.NotImplementedException("Event subscription required");
     }
-    
-    private void OnDestroy()
-    {
-        // TODO: Unsubscribe from events
-        throw new System.NotImplementedException("Cleanup required");
-    }
-    
     #endregion
 
-    #region Chain Management
-    
-    /// <summary>
-    /// Start a new chain reaction sequence.
-    /// </summary>
-    public void StartChain()
+    #region Chain Initiation
+    public void StartChainReaction(Vector2 origin, List<SlimeController> initialSlimes)
     {
-        // TODO: Reset chain state, start timer, fire OnChainStarted
-        throw new System.NotImplementedException("Chain start required");
+        // TODO: Reset chain state
+        // TODO: Set isChainActive = true
+        // TODO: Add initial event to activeChain
+        // TODO: Start ProcessChain coroutine
+        // TODO: Invoke OnChainStarted
     }
-    
-    /// <summary>
-    /// Add a link to the current chain.
-    /// </summary>
-    /// <param name="matchScore">Base score from the match</param>
-    public void AddChainLink(int matchScore)
+
+    public void TriggerCascade(Vector2 position, SlimeController.SlimeColor color, int chainLevel)
     {
-        // TODO: Increment depth, calculate multiplied score, show feedback
-        throw new System.NotImplementedException("Chain link required");
+        // TODO: Create new ChainEvent
+        // TODO: Add to activeChain
+        // TODO: Update UI to show cascade
+        // TODO: Invoke OnCascadeTriggered
     }
-    
-    /// <summary>
-    /// End the current chain and award total points.
-    /// </summary>
-    public void EndChain()
-    {
-        // TODO: Calculate totals, fire OnChainComplete, reset state
-        throw new System.NotImplementedException("Chain end required");
-    }
-    
-    /// <summary>
-    /// Reset chain state (called when chain times out or board settles).
-    /// </summary>
-    public void ResetChain()
-    {
-        // TODO: Clear all chain data, depth = 0
-        throw new System.NotImplementedException("Chain reset required");
-    }
-    
     #endregion
 
-    #region Scoring
-    
-    /// <summary>
-    /// Get current multiplier based on chain depth.
-    /// </summary>
-    /// <param name="depth">Chain depth (0 = first match)</param>
-    public float GetMultiplier(int depth)
+    #region Chain Processing
+    private IEnumerator ProcessChain()
     {
-        // TODO: Return multiplier from curve or formula
-        throw new System.NotImplementedException("Multiplier calculation required");
+        // TODO: While activeChain has events
+        // TODO: Process each event with delay
+        // TODO: Check for new merges after each event
+        // TODO: Update chain level
+        // TODO: Apply multiplier
+        yield return null; // TODO: Implement
     }
-    
-    /// <summary>
-    /// Calculate final score with chain multiplier applied.
-    /// </summary>
-    public int CalculateChainScore(int baseScore, int depth)
+
+    private IEnumerator ProcessChainEvent(ChainEvent chainEvent)
     {
-        // TODO: baseScore * GetMultiplier(depth), round to int
-        throw new System.NotImplementedException("Score calculation required");
+        // TODO: Wait for chainEvent.Delay
+        // TODO: Spawn visual effects
+        // TODO: Apply physics forces to nearby slimes
+        // TODO: Check for new matches
+        // TODO: Call chainEvent.OnComplete
+        yield return null; // TODO: Implement
     }
-    
-    /// <summary>
-    /// Get total points from entire chain.
-    /// </summary>
-    public int GetTotalChainPoints()
+
+    private void ResolveChain()
     {
-        // TODO: Sum all chainScores
-        throw new System.NotImplementedException("Total calculation required");
+        // TODO: Calculate total chain score
+        // TODO: Apply final multiplier
+        // TODO: Award points via GameManager
+        // TODO: Invoke OnChainComplete
+        // TODO: Reset chain state
     }
-    
     #endregion
 
-    #region Visual Feedback
-    
-    /// <summary>
-    /// Show chain counter UI (x2, x3, etc.).
-    /// </summary>
-    private void ShowChainCounter(int depth, Vector2 position)
+    #region Cascade Mechanics
+    private List<SlimeController> FindAffectedSlimes(Vector2 center, float radius)
     {
-        // TODO: Spawn chainTextPrefab with "x{depth}", animate upward
-        throw new System.NotImplementedException("Counter display required");
+        // TODO: Find slimes within radius of cascade point
+        // TODO: Affected slimes may shift/merge
+        // TODO: Return list of affected slimes
+        return new List<SlimeController>(); // TODO: Implement
     }
-    
-    /// <summary>
-    /// Show floating score text.
-    /// </summary>
-    private void ShowFloatingScore(int points, Vector2 position)
+
+    private void ApplyCascadeForce(Vector2 center, float force)
     {
-        // TODO: Spawn text with "+{points}", float upward and fade
-        throw new System.NotImplementedException("Floating text required");
+        // TODO: Apply explosive force to slimes near center
+        // TODO: May cause new matches
+        // TODO: Visual shake effect
     }
-    
-    /// <summary>
-    /// Screen flash effect for big chains.
-    /// </summary>
-    private void TriggerScreenFlash(int depth)
+
+    private bool CheckForSecondaryMatches()
     {
-        // TODO: Brief white flash overlay for chains 5+
-        throw new System.NotImplementedException("Screen flash required");
+        // TODO: After cascade, check if new matches formed
+        // TODO: If yes, add to activeChain
+        // TODO: Return true if new matches found
+        return false; // TODO: Implement
     }
-    
-    /// <summary>
-    /// Camera shake for satisfying chain feedback.
-    /// </summary>
-    private void TriggerCameraShake(float intensity)
-    {
-        // TODO: Shake main camera based on chain intensity
-        throw new System.NotImplementedException("Camera shake required");
-    }
-    
     #endregion
 
-    #region Timing & Coroutines
-    
-    /// <summary>
-    /// Monitor chain timing - end chain if no new matches within timeout.
-    /// </summary>
-    private IEnumerator ChainTimeoutMonitor()
+    #region Multiplier System
+    public float GetCurrentMultiplier()
     {
-        // TODO: Wait for chainDelay, if no new links then EndChain()
-        throw new System.NotImplementedException("Timeout monitor required");
+        // TODO: Evaluate chainMultiplierCurve at currentChainLevel
+        // TODO: Clamp between baseMultiplier and maxMultiplier
+        return baseMultiplier; // TODO: Implement
     }
-    
-    /// <summary>
-    /// Check if chain has timed out (no activity for too long).
-    /// </summary>
-    private bool HasChainTimedOut()
+
+    public int CalculateChainScore(int baseScore)
     {
-        // TODO: Check Time.time - chainStartTime > maxChainTime
-        throw new System.NotImplementedException("Timeout check required");
+        // TODO: Multiply baseScore by GetCurrentMultiplier()
+        // TODO: Return as int
+        return baseScore; // TODO: Implement
     }
-    
+
+    private void UpdateChainLevel(int newLevel)
+    {
+        // TODO: Set currentChainLevel = newLevel
+        // TODO: Calculate new multiplier
+        // TODO: Update UI
+        // TODO: Invoke OnChainLevelIncreased
+    }
     #endregion
 
-    #region Analytics
-    
-    /// <summary>
-    /// Get chain statistics for analytics/achievements.
-    /// </summary>
-    public ChainStats GetChainStats()
+    #region Visual Effects
+    private void SpawnCascadeEffect(Vector2 position, int level)
     {
-        // TODO: Return struct with max depth, total points, duration
-        throw new System.NotImplementedException("Stats getter required");
+        // TODO: Spawn particle system
+        // TODO: Scale intensity with chain level
+        // TODO: Color based on triggering slime
+        // TODO: Screen shake for high levels
     }
-    
-    public struct ChainStats
+
+    private void ShowChainText(Vector2 position, int level)
     {
-        public int MaxDepth;
-        public int TotalPoints;
-        public float Duration;
-        public float MaxMultiplier;
+        // TODO: Spawn floating text
+        // TODO: "x2", "x3", "COMBO!", "MEGA CASCADE!"
     }
-    
+
+    private IEnumerator ScreenShake(float intensity, float duration)
+    {
+        // TODO: Shake camera
+        // TODO: Intensity scales with chain level
+        yield return null; // TODO: Implement
+    }
+    #endregion
+
+    #region Audio
+    private void PlayCascadeSound(int level)
+    {
+        // TODO: Play escalating sound
+        // TODO: Pitch/speed increases with chain level
+        // TODO: Satisfying "pop" sounds
+    }
+    #endregion
+
+    #region Utility
+    public bool IsChainActive()
+    {
+        return isChainActive;
+    }
+
+    public int GetCurrentChainLevel()
+    {
+        return currentChainLevel;
+    }
+
+    public void StopChain()
+    {
+        // TODO: Stop all chain processing
+        // TODO: Clear activeChain
+        // TODO: Reset state
+    }
+
+    public float GetChainProgress()
+    {
+        // TODO: Return 0-1 progress of current chain
+        // TODO: Used for UI bar
+        return 0f; // TODO: Implement
+    }
     #endregion
 }

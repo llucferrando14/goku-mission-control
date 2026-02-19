@@ -1,159 +1,173 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
-/// Central game state manager. Handles game flow, scoring, level progression.
-/// Singleton pattern - only one GameManager exists per scene.
+/// GameManager - Central game state controller
+/// Manages game flow, score, level progression, and coordinates all systems
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    #region Singleton
+    #region Singleton Pattern
     public static GameManager Instance { get; private set; }
     #endregion
 
     #region Game State
     public enum GameState
     {
-        MainMenu,
+        Menu,
         Playing,
+        Paused,
         GameOver,
-        LevelComplete,
-        Paused
+        LevelComplete
     }
     
     public GameState CurrentState { get; private set; }
     #endregion
 
+    #region Core Systems References
+    [Header("Core Systems")]
+    [SerializeField] private SlimeController slimeController;
+    [SerializeField] private PegBoard pegBoard;
+    [SerializeField] private ColorMatcher colorMatcher;
+    [SerializeField] private ChainReaction chainReaction;
+    #endregion
+
     #region Game Data
-    [Header("Game Settings")]
-    [SerializeField] private int targetScore = 1000;
-    [SerializeField] private int maxSlimes = 50;
-    [SerializeField] private float turnTimeLimit = 30f;
-    
-    [Header("Runtime Data")]
-    [SerializeField] private int currentScore = 0;
-    [SerializeField] private int currentLevel = 1;
-    [SerializeField] private int slimesDropped = 0;
-    [SerializeField] private float turnTimer = 0f;
+    [Header("Game Data")]
+    [SerializeField] private int currentScore;
+    [SerializeField] private int currentLevel;
+    [SerializeField] private int slimesRemaining;
+    [SerializeField] private int targetScore;
     #endregion
 
     #region Events
-    public delegate void GameStateChanged(GameState newState);
-    public static event GameStateChanged OnGameStateChanged;
-    
-    public delegate void ScoreUpdated(int newScore, int pointsAdded);
-    public static event ScoreUpdated OnScoreUpdated;
-    
-    public delegate void LevelComplete(int level, int finalScore);
-    public static event LevelComplete OnLevelComplete;
+    public System.Action<int> OnScoreChanged;
+    public System.Action<int> OnLevelChanged;
+    public System.Action<GameState> OnGameStateChanged;
+    public System.Action OnGameOver;
+    public System.Action OnLevelComplete;
     #endregion
 
     #region Unity Lifecycle
-    
     private void Awake()
     {
-        // TODO: Initialize singleton, prevent duplicates
-        throw new System.NotImplementedException("Singleton initialization required");
+        // TODO: Implement singleton initialization
+        // TODO: Set Instance = this
+        // TODO: DontDestroyOnLoad if needed
     }
-    
+
     private void Start()
     {
-        // TODO: Initialize game state, load level data, setup event listeners
-        throw new System.NotImplementedException("Game initialization required");
+        // TODO: Initialize all core systems
+        // TODO: Load level data
+        // TODO: Set initial state to Menu
     }
-    
+
     private void Update()
     {
-        // TODO: Update turn timer, check win/lose conditions
-        throw new System.NotImplementedException("Game loop update required");
+        // TODO: Handle input based on current state
+        // TODO: Check win/lose conditions
     }
-    
     #endregion
 
     #region State Management
-    
-    /// <summary>
-    /// Transition to a new game state. Notifies all subscribers.
-    /// </summary>
-    /// <param name="newState">Target state</param>
-    public void ChangeState(GameState newState)
+    public void SetGameState(GameState newState)
     {
-        // TODO: Validate state transition, update CurrentState, fire event
-        throw new System.NotImplementedException("State transition logic required");
+        // TODO: Validate state transition
+        // TODO: Exit current state logic
+        // TODO: Set CurrentState = newState
+        // TODO: Enter new state logic
+        // TODO: Invoke OnGameStateChanged
     }
-    
-    /// <summary>
-    /// Start a new game from the beginning.
-    /// </summary>
-    public void StartNewGame()
+
+    public void StartGame()
     {
-        // TODO: Reset score, level, load first level, change to Playing state
-        throw new System.NotImplementedException("New game logic required");
+        // TODO: Reset score and level
+        // TODO: Initialize first level
+        // TODO: Set state to Playing
     }
-    
-    /// <summary>
-    /// Start the next level.
-    /// </summary>
+
+    public void PauseGame()
+    {
+        // TODO: Set state to Paused
+        // TODO: Show pause menu
+        // TODO: Stop physics/time if needed
+    }
+
+    public void ResumeGame()
+    {
+        // TODO: Set state to Playing
+        // TODO: Hide pause menu
+        // TODO: Resume physics/time
+    }
+
+    public void EndGame()
+    {
+        // TODO: Set state to GameOver
+        // TODO: Show game over UI
+        // TODO: Save high score
+        // TODO: Invoke OnGameOver
+    }
+    #endregion
+
+    #region Score Management
+    public void AddScore(int points)
+    {
+        // TODO: Add points to currentScore
+        // TODO: Invoke OnScoreChanged
+        // TODO: Check for level completion
+    }
+
+    public void ResetScore()
+    {
+        // TODO: Reset currentScore to 0
+        // TODO: Invoke OnScoreChanged
+    }
+    #endregion
+
+    #region Level Management
+    public void LoadLevel(int levelNumber)
+    {
+        // TODO: Validate level exists
+        // TODO: Load level configuration
+        // TODO: Initialize peg board
+        // TODO: Reset slimes for the level
+        // TODO: Set target score
+    }
+
     public void NextLevel()
     {
-        // TODO: Increment level, load level data, reset board
-        throw new System.NotImplementedException("Level progression required");
+        // TODO: Increment currentLevel
+        // TODO: LoadLevel(currentLevel)
+        // TODO: Invoke OnLevelChanged
+        // TODO: Set state to LevelComplete briefly, then Playing
     }
-    
-    /// <summary>
-    /// End current game session.
-    /// </summary>
-    public void GameOver()
-    {
-        // TODO: Save high score, show game over UI, change state
-        throw new System.NotImplementedException("Game over logic required");
-    }
-    
-    /// <summary>
-    /// Pause/unpause the game.
-    /// </summary>
-    public void TogglePause()
-    {
-        // TODO: Toggle time scale, show/hide pause menu
-        throw new System.NotImplementedException("Pause logic required");
-    }
-    
     #endregion
 
-    #region Scoring
-    
-    /// <summary>
-    /// Add points to current score.
-    /// </summary>
-    /// <param name="points">Points to add</param>
-    /// <param name="source">What caused the score (for analytics)</param>
-    public void AddScore(int points, string source)
+    #region Slime Management
+    public void OnSlimeDropped()
     {
-        // TODO: Add points, check for high score, fire ScoreUpdated event
-        throw new System.NotImplementedException("Scoring logic required");
+        // TODO: Decrement slimesRemaining
+        // TODO: Check if out of slimes
+        // TODO: Trigger Game Over if no slimes and target not met
     }
-    
-    /// <summary>
-    /// Check if current score meets target for level completion.
-    /// </summary>
-    /// <returns>True if target met</returns>
-    public bool CheckWinCondition()
+
+    public void AddSlimes(int count)
     {
-        // TODO: Compare currentScore >= targetScore
-        throw new System.NotImplementedException("Win condition check required");
+        // TODO: Add count to slimesRemaining (power-up reward)
     }
-    
     #endregion
 
-    #region Data Access
-    
-    /// <summary>
-    /// Get current game statistics.
-    /// </summary>
-    public (int score, int level, int slimesDropped) GetStats()
+    #region Utility
+    public bool IsPlaying()
     {
-        // TODO: Return tuple of current stats
-        throw new System.NotImplementedException("Stats getter required");
+        return CurrentState == GameState.Playing;
     }
-    
+
+    public void RestartLevel()
+    {
+        // TODO: Reload current level
+        // TODO: Reset score for the level
+    }
     #endregion
 }

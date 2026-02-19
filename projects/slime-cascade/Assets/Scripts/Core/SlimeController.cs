@@ -1,200 +1,185 @@
 using UnityEngine;
 
 /// <summary>
-/// Controls individual slime ball physics and behavior.
-/// Handles dropping, collision, settling, and visual feedback.
+/// SlimeController - Handles slime ball physics, dropping, and interactions
+/// Controls the player-controlled slime from aim to settlement
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
 public class SlimeController : MonoBehaviour
 {
-    #region Configuration
-    [Header("Physics")]
-    [SerializeField] private float bounciness = 0.7f;
-    [SerializeField] private float friction = 0.1f;
+    #region Physics Components
+    private Rigidbody2D rb;
+    private CircleCollider2D col;
+    #endregion
+
+    #region Slime Properties
+    [Header("Slime Properties")]
+    [SerializeField] private SlimeColor color;
+    [SerializeField] private float dropForce = 5f;
+    [SerializeField] private float maxBounceVelocity = 10f;
     [SerializeField] private float sleepThreshold = 0.05f;
-    [SerializeField] private float maxVelocity = 20f;
     
-    [Header("Visual")]
-    [SerializeField] private Color slimeColor = Color.green;
-    [SerializeField] private float settleScale = 0.8f;
-    [SerializeField] private AnimationCurve bounceCurve;
+    public enum SlimeColor
+    {
+        Red,
+        Green,
+        Blue,
+        Yellow,
+        Purple, // Special/power-up
+        Rainbow // Wildcard
+    }
     #endregion
 
     #region State
     public enum SlimeState
     {
-        InQueue,      // Waiting to be dropped
-        Dropping,     // Falling through pegs
-        Settling,     // Slowing down at bottom
-        Settled,      // At rest, ready for matching
-        Merging,      // Currently merging with another slime
-        Clearing      // Being removed (matched)
+        Aiming,     // Player is aiming from top
+        Dropping,   // In free fall
+        Bouncing,   // Hitting pegs
+        Settling,   // Slowing down at bottom
+        Merged,     // Part of a match/merge
+        Destroyed   // Cleared from board
     }
     
     public SlimeState CurrentState { get; private set; }
-    public Color Color => slimeColor;
-    public bool IsSettled => CurrentState == SlimeState.Settled;
+    public SlimeColor Color => color;
+    public bool IsSettled => CurrentState == SlimeState.Settling || CurrentState == SlimeState.Merged;
     #endregion
 
-    #region Components
-    private Rigidbody2D rb;
-    private CircleCollider2D col;
-    private SpriteRenderer spriteRenderer;
+    #region Events
+    public System.Action OnDropStarted;
+    public System.Action OnBounce;
+    public System.Action OnSettled;
+    public System.Action OnMerge;
     #endregion
 
     #region Unity Lifecycle
-    
     private void Awake()
     {
-        // TODO: Cache component references (rb, col, spriteRenderer)
-        throw new System.NotImplementedException("Component caching required");
+        // TODO: Cache Rigidbody2D component
+        // TODO: Cache CircleCollider2D component
+        // TODO: Configure physics properties
     }
-    
+
     private void Start()
     {
-        // TODO: Initialize physics material, set sleep threshold
-        throw new System.NotImplementedException("Physics initialization required");
+        // TODO: Set initial state to Aiming
+        // TODO: Position at top of board
+        // TODO: Disable physics until dropped
     }
-    
+
     private void FixedUpdate()
     {
-        // TODO: Cap velocity, check for settling conditions
-        throw new System.NotImplementedException("Physics constraints required");
+        // TODO: Monitor velocity for state changes
+        // TODO: Check if settled (velocity < threshold)
+        // TODO: Clamp max velocity
     }
-    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // TODO: Play bounce sound, trigger bounce animation, check for peg collision
-        throw new System.NotImplementedException("Collision handling required");
+        // TODO: Handle collision with pegs
+        // TODO: Handle collision with other slimes
+        // TODO: Trigger OnBounce event
+        // TODO: Play bounce sound effect
+        // TODO: Spawn bounce particles
     }
-    
-    #endregion
-
-    #region Initialization
-    
-    /// <summary>
-    /// Set up slime with specific color and position.
-    /// Called when spawning a new slime.
-    /// </summary>
-    /// <param name="color">Slime color</param>
-    /// <param name="startPosition">Spawn position</param>
-    public void Initialize(Color color, Vector2 startPosition)
-    {
-        // TODO: Set color, position, reset state to InQueue
-        throw new System.NotImplementedException("Initialization required");
-    }
-    
-    /// <summary>
-    /// Configure physics properties.
-    /// </summary>
-    public void SetPhysicsProperties(float bounce, float fric)
-    {
-        // TODO: Update bounciness and friction values
-        throw new System.NotImplementedException("Physics config required");
-    }
-    
     #endregion
 
     #region Drop Mechanics
-    
-    /// <summary>
-    /// Start dropping the slime from current position.
-    /// </summary>
+    public void SetAimPosition(Vector3 worldPosition)
+    {
+        // TODO: Only allow if in Aiming state
+        // TODO: Move slime to x position (keep y at top)
+        // TODO: Visual feedback (aim line, trajectory preview)
+    }
+
     public void Drop()
     {
-        // TODO: Change state to Dropping, enable physics, apply initial velocity
-        throw new System.NotImplementedException("Drop logic required");
+        // TODO: Validate in Aiming state
+        // TODO: Enable physics
+        // TODO: Apply initial downward force
+        // TODO: Change state to Dropping
+        // TODO: Invoke OnDropStarted
     }
-    
-    /// <summary>
-    /// Set initial aim direction before dropping.
-    /// </summary>
-    /// <param name="aimAngle">Angle in degrees (0 = straight down)</param>
-    public void SetAim(float aimAngle)
+
+    public void DropWithForce(Vector2 direction, float force)
     {
-        // TODO: Rotate visual to show aim direction
-        throw new System.NotImplementedException("Aiming logic required");
+        // TODO: Alternative drop with directional force
+        // TODO: Used for special slimes or power-ups
     }
-    
     #endregion
 
-    #region Settling
-    
-    /// <summary>
-    /// Check if slime has settled (stopped moving).
-    /// </summary>
-    /// <returns>True if velocity below threshold</returns>
-    private bool HasSettled()
+    #region Color Management
+    public void SetColor(SlimeColor newColor)
     {
-        // TODO: Check rb.velocity.magnitude < sleepThreshold
-        throw new System.NotImplementedException("Settle detection required");
+        // TODO: Set color property
+        // TODO: Update visual (sprite color)
+        // TODO: Update physics material if needed
     }
-    
-    /// <summary>
-    /// Mark slime as settled and ready for matching.
-    /// </summary>
-    public void Settle()
+
+    public void RandomizeColor(SlimeColor[] allowedColors)
     {
-        // TODO: Change state to Settled, scale down slightly, notify GameManager
-        throw new System.NotImplementedException("Settle logic required");
+        // TODO: Pick random color from allowed set
+        // TODO: SetColor(randomColor)
     }
-    
     #endregion
 
-    #region Merging & Clearing
-    
-    /// <summary>
-    /// Begin merge animation with another slime.
-    /// </summary>
-    /// <param name="targetPosition">Position to merge toward</param>
-    public void StartMerge(Vector2 targetPosition)
+    #region State Management
+    private void SetState(SlimeState newState)
     {
-        // TODO: Change state to Merging, animate toward target
-        throw new System.NotImplementedException("Merge animation required");
+        // TODO: Handle state exit logic
+        // TODO: Set CurrentState = newState
+        // TODO: Handle state enter logic
     }
-    
-    /// <summary>
-    /// Complete merge - destroy this slime and return value.
-    /// </summary>
-    /// <returns>Score value of this slime</returns>
-    public int CompleteMerge()
+
+    private void OnSettle()
     {
-        // TODO: Return point value, play merge effect, destroy game object
-        throw new System.NotImplementedException("Merge completion required");
+        // TODO: Change state to Settling
+        // TODO: Stop physics simulation
+        // TODO: Snap to grid position
+        // TODO: Invoke OnSettled
+        // TODO: Notify GameManager
+        // TODO: Check for matches
     }
-    
-    /// <summary>
-    /// Trigger clearing animation (when part of match).
-    /// </summary>
-    public void Clear()
-    {
-        // TODO: Change state to Clearing, play clear animation, destroy
-        throw new System.NotImplementedException("Clear logic required");
-    }
-    
     #endregion
 
-    #region Visual Feedback
-    
-    /// <summary>
-    /// Play bounce visual effect.
-    /// </summary>
-    public void PlayBounceEffect()
+    #region Merge & Clear
+    public void MarkForMerge()
     {
-        // TODO: Squash/stretch animation, particle burst
-        throw new System.NotImplementedException("Bounce FX required");
+        // TODO: Set state to Merged
+        // TODO: Disable physics
+        // TODO: Prepare for merge animation
     }
-    
-    /// <summary>
-    /// Highlight slime as part of potential match.
-    /// </summary>
-    /// <param name="highlighted">True to highlight</param>
-    public void SetHighlighted(bool highlighted)
+
+    public void ClearFromBoard()
     {
-        // TODO: Change sprite color/brightness to show highlight
-        throw new System.NotImplementedException("Highlight logic required");
+        // TODO: Set state to Destroyed
+        // TODO: Play clear animation
+        // TODO: Spawn particles
+        // TODO: Return to pool or destroy
     }
-    
+    #endregion
+
+    #region Utility
+    public bool CanMatchWith(SlimeController other)
+    {
+        // TODO: Check if colors match
+        // TODO: Handle special colors (Rainbow matches any)
+        // TODO: Return true if matchable
+        return false; // TODO: Implement
+    }
+
+    public void ApplyBounceBoost(float multiplier)
+    {
+        // TODO: Temporarily increase bounciness
+        // TODO: Used for power-ups
+    }
+
+    public void SetKinematic(bool kinematic)
+    {
+        // TODO: Set Rigidbody2D.isKinematic
+        // TODO: Used for pausing/resuming
+    }
     #endregion
 }
