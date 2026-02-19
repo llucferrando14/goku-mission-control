@@ -219,6 +219,103 @@ app.get('/api/list/*', async (req, res) => {
   }
 })
 
+// Get full file tree
+app.get('/api/files', async (req, res) => {
+  try {
+    async function buildTree(dirPath, relativePath = '') {
+      const fullPath = path.join(WORKSPACE, dirPath)
+      const entries = await fs.readdir(fullPath, { withFileTypes: true })
+      
+      const children = await Promise.all(
+        entries.map(async entry => {
+          const entryRelativePath = path.join(relativePath, entry.name)
+          if (entry.isDirectory()) {
+            const subChildren = await buildTree(entryRelativePath, entryRelativePath)
+            return {
+              name: entry.name,
+              type: 'directory',
+              path: entryRelativePath,
+              children: subChildren
+            }
+          } else {
+            const stats = await fs.stat(path.join(fullPath, entry.name))
+            return {
+              name: entry.name,
+              type: 'file',
+              path: entryRelativePath,
+              size: stats.size,
+              modified: stats.mtime
+            }
+          }
+        })
+      )
+      
+      return children
+    }
+    
+    const tree = await buildTree('')
+    res.json({ tree })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// Search across workspace
+app.get('/api/search', async (req, res) => {
+  try {
+    const query = req.query.q?.toLowerCase()
+    if (!query) {
+      return res.json({ results: [] })
+    }
+    
+    const results = []
+    
+    async function searchDir(dirPath, relativePath = '') {
+      const fullPath = path.join(WORKSPACE, dirPath)
+      const entries = await fs.readdir(fullPath, { withFileTypes: true })
+      
+      for (const entry of entries) {
+        const entryRelativePath = path.join(relativePath, entry.name)
+        
+        if (entry.isDirectory()) {
+          await searchDir(entryRelativePath, entryRelativePath)
+        } else if (entry.name.endsWith('.md') || entry.name.endsWith('.json') || entry.name.endsWith('.txt')) {
+          try {
+            const content = await fs.readFile(path.join(fullPath, entry.name), 'utf-8')
+            if (content.toLowerCase().includes(query)) {
+              // Find context around match
+              const lines = content.split('\n')
+              const matches = []
+              lines.forEach((line, idx) => {
+                if (line.toLowerCase().includes(query)) {
+                  matches.push({
+                    line: idx + 1,
+                    text: line.trim().substring(0, 100)
+                  })
+                }
+              })
+              
+              if (matches.length > 0) {
+                results.push({
+                  file: entryRelativePath,
+                  matches: matches.slice(0, 3) // Max 3 matches per file
+                })
+              }
+            }
+          } catch (e) {
+            // Skip files that can't be read
+          }
+        }
+      }
+    }
+    
+    await searchDir('')
+    res.json({ query, results })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`⚡ Mission Control backend running on port ${PORT}`)
   console.log(`📁 Watching workspace: ${WORKSPACE}`)

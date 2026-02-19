@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import Home from './pages/Home'
+import Memory from './pages/Memory'
 
 function App() {
   const [gokuStatus, setGokuStatus] = useState({
@@ -41,6 +42,7 @@ function App() {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home status={gokuStatus} />} />
+          <Route path="/memory" element={<Memory />} />
         </Routes>
       </main>
     </div>
