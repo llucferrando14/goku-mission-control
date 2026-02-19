@@ -1,15 +1,16 @@
 {
-  "name": "health",
-  "version": "1.0.0",
-  "description": "Health Management Skill — Dermatomyositis monitoring and athletic optimization",
-  "domain": "Health & Athletic Performance",
-  "condition": "Dermatomyositis",
-  "wearable": "Garmin (model TBD)",
-  "tracking": ["symptoms", "training", "sleep", "medication"],
-  "templates": [
-    "daily-health-log.md",
-    "flare-alert.md",
-    "weekly-health-summary.md"
-  ],
-  "lastUpdated": "2026-02-19"
+  "condition": "dermatomyositis",
+  "garmin_model": "Forerunner 255 Music",
+  "garmin_api_connected": false,
+  "training_frequency": "daily",
+  "alert_thresholds": {
+    "sleep_critical_hours": 6,
+    "sleep_warning_hours": 7,
+    "consecutive_hard_days_critical": 3,
+    "consecutive_hard_days_warning": 2,
+    "symptom_score_critical": 7,
+    "symptom_score_warning": 5,
+    "recovery_score_warning": 50
+  },
+  "tracking": ["sleep", "hrv", "training_load", "recovery", "symptoms", "medication"]
 }
