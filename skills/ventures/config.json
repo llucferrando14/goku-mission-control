@@ -1,14 +1,8 @@
 {
-  "name": "ventures",
-  "version": "1.0.0",
-  "description": "Opportunity Scouting Skill — Market intelligence, trends, strategic opportunities",
-  "domain": "Market Intelligence",
-  "focus": ["New tools", "Market gaps", "Strategic opportunities", "Investment targets"],
-  "output": ["Opportunity briefs", "Investment memos", "MVP specs"],
-  "templates": [
-    "opportunity-brief.md",
-    "investment-memo.md",
-    "mvp-spec.md"
-  ],
-  "lastUpdated": "2026-02-19"
+  "pipeline_stages": ["researching", "evaluating", "mvp_ready", "building", "paused", "killed"],
+  "active_opportunities": [],
+  "playbook_entries": 0,
+  "target": "first_growth_partner_client",
+  "lluc_edge": ["technical_depth", "growth_engineering", "AI_mastery", "communication"],
+  "scan_sources": ["ProductHunt", "HackerNews", "Twitter", "newsletters"]
 }
