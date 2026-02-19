@@ -1,16 +1,9 @@
 {
-  "name": "thesis",
-  "version": "1.0.0",
-  "description": "University Thesis Skill — Academic research and documentation",
-  "domain": "Academic Research",
-  "institution": "[University name pending]",
-  "program": "Video Game Engineering",
-  "topic": "[Pending — related to Amphora work]",
-  "deadline": "[To be confirmed]",
-  "connection": "Amphora internship work contributes to thesis",
-  "templates": [
-    "research-note.md",
-    "chapter-outline.md"
-  ],
-  "lastUpdated": "2026-02-19"
+  "topic": "kallax",
+  "documentation_received": false,
+  "amphora_integration": true,
+  "deadline": "TBD",
+  "status": "awaiting_documentation",
+  "sources_logged": 0,
+  "chapters_outlined": 0
 }
